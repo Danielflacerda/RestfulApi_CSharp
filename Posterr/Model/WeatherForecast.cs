@@ -1,4 +1,4 @@
-namespace Posterr;
+namespace Posterr.Model;
 
 public class WeatherForecast
 {

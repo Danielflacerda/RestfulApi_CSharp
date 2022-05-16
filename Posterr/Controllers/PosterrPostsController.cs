@@ -6,6 +6,8 @@ namespace Posterr.Controllers;
 [Route("[controller]")]
 public class PosterrPostsController : ControllerBase
 {
+    //This can become a session variable in future for better implementation.
+    public int _lastPostsAmountRecovered; 
 
     private readonly ILogger<PosterrPostsController> _logger;
 
@@ -16,6 +18,16 @@ public class PosterrPostsController : ControllerBase
 
     [HttpGet(Name = "GetPosts")]
     public IEnumerable<Post> Get()
+    {
+    }
+
+    [HttpGet(Name = "GetPosts")]
+    public IEnumerable<Post> Get()
+    {
+    }
+
+    [HttpGet(Name = "CreatePosts")]
+    public IEnumerable<Post> Post()
     {
     }
 }
