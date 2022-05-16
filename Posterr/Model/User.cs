@@ -8,7 +8,6 @@ public record User
     
     public string Username { get; init; }
     
-    
     public DateTime CreatedOn { get; init; }
     
     public List<string> Followers { get; set; }

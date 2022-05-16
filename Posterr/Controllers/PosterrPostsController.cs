@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Posterr.Model;
 
 namespace Posterr.Controllers;
 
@@ -16,18 +17,15 @@ public class PosterrPostsController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet(Name = "GetPosts")]
-    public IEnumerable<Post> Get()
+    [HttpGet("{filtered}")]
+    public async Task<ActionResult<List<Post>>> GetAsync(bool filtered)
     {
+        return Ok(new Post());
     }
 
-    [HttpGet(Name = "GetPosts")]
-    public IEnumerable<Post> Get()
+    [HttpPost("{value}")]
+    public async Task PostAsync([FromBody] Post value)
     {
-    }
-
-    [HttpGet(Name = "CreatePosts")]
-    public IEnumerable<Post> Post()
-    {
+        
     }
 }
