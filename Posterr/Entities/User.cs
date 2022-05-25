@@ -1,4 +1,4 @@
-namespace Posterr.Model;
+namespace Posterr.Entities;
 
 // Using record instead of class so it becomes more safe since we aren't going to change
 // the object structure.

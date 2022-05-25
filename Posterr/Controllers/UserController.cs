@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Posterr.Model;
+using Posterr.Entities;
 
 namespace Posterr.Controllers;
 
