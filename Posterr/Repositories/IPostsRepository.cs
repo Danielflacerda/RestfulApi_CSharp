@@ -3,8 +3,7 @@ using Posterr.Entities;
 namespace Posterr.Repositories;
 public interface IPostsRepository
 {
-    Post GetPost(long id);
-    IEnumerable<Post> GetPosts();
-    long GetMaxId();
-    void CreatePost(Post post);
+    Task<Post> GetPostAsync(Guid id);
+    Task<IEnumerable<Post>> GetPostsAsync();
+    Task CreatePostAsync(Post post);
 }

@@ -4,7 +4,7 @@ namespace Posterr.Entities;
 // the object structure.
 public record Post
 {
-    public long PostId { get; init; }
+    public Guid Id { get; init; }
     
     public string Content { get; init; }
     
@@ -12,6 +12,6 @@ public record Post
     
     public long PostedByUserId { get; init; }
     
-    public DateTime CreatedOn { get; init; }
+    public DateTimeOffset CreatedOn { get; init; }
 
 }

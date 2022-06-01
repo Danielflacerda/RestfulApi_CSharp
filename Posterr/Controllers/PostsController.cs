@@ -22,11 +22,30 @@ public class PostsController : ControllerBase
         _postsRepository = postsRepository;
     }
 
-    [HttpGet("{filtered}")]
-    public async Task<ActionResult<List<PostDto>>> GetPost(bool filtered)
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Post>> GetPostAsync(Guid id)
     {
         try{
-            var posts = _postsRepository.GetPosts().Select(post => post.PostAsDto());
+        var post = await _postsRepository.GetPostAsync(id);
+        
+        if (post is null){
+            return NotFound();
+        }
+        else
+            return Ok(post);
+
+        }
+        catch (Exception ex){
+            return BadRequest(ex.Message);
+        }
+
+    }
+
+    [HttpGet()]
+    public async Task<ActionResult<List<PostDto>>> GetPostsAsync(bool filtered)
+    {
+        try{
+            var posts = (await _postsRepository.GetPostsAsync()).Select(post => post.PostAsDto());
             if (posts.Count() == 0){
                 return NotFound();
             }
@@ -34,23 +53,23 @@ public class PostsController : ControllerBase
                 return Ok(posts);
         }
         catch(Exception ex){
-            return BadRequest();
+            return BadRequest(ex.Message);
         }
     }
 
     [HttpPost]
-    public async Task PostAsync(CreatePostDto value)
+    public async Task CreatePostAsync(CreatePostDto value)
     {
         Post post = new(){
-                PostId = _postsRepository.GetMaxId() + 1,
+                Id = Guid.NewGuid(),
                 Content = value.Content,
                 RepostedPostId = value.RepostedPostId,
                 PostedByUserId = value.PostedByUserId,
                 CreatedOn = DateTime.Now
         };
 
-        _postsRepository.CreatePost(post);
+        await _postsRepository.CreatePostAsync(post);
 
-        CreatedAtAction(nameof(GetPost) , new { id = post.PostId }, post.PostAsDto());
+        CreatedAtAction(nameof(GetPostAsync) , new { id = post.Id }, post.PostAsDto());
     }
 }

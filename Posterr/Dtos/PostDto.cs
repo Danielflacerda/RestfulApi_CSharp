@@ -2,7 +2,7 @@ namespace Posterr.Dtos;
 
 public record PostDto
 {
-    public long PostId { get; init; }
+    public Guid Id { get; init; }
     
     public string Content { get; init; }
     
@@ -10,6 +10,6 @@ public record PostDto
     
     public long PostedByUserId { get; init; }
     
-    public DateTime CreatedOn { get; init; }
+    public DateTimeOffset CreatedOn { get; init; }
 
 }

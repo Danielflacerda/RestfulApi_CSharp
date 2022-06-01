@@ -4,7 +4,7 @@ namespace Posterr.Entities;
 // the object structure.
 public record User
 {
-    public long UserId { get; init; }
+    public Guid Id { get; init; }
     
     public string Username { get; init; }
     

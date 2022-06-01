@@ -6,7 +6,7 @@ public static class Utilities{
 
     public static PostDto PostAsDto(this Post post){
         return new PostDto{
-                PostId = post.PostId,
+                Id = post.Id,
                 Content = post.Content,
                 RepostedPostId = post.RepostedPostId,
                 PostedByUserId = post.PostedByUserId,

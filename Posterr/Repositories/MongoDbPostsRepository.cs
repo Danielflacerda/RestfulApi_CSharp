@@ -1,3 +1,4 @@
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Posterr.Entities;
 
@@ -8,27 +9,24 @@ public class MongoDbPostsRepository : IPostsRepository
     private const string databaseName = "posterr";
     private const string collectionName = "posts";
     private readonly IMongoCollection<Post> postsCollection;
+    private readonly FilterDefinitionBuilder<Post> filterBuilder = Builders<Post>.Filter;
     public MongoDbPostsRepository(IMongoClient mongoClient){
         IMongoDatabase database = mongoClient.GetDatabase(databaseName);
         postsCollection = database.GetCollection<Post>(collectionName);
     }
-    public void CreatePost(Post post)
+    public async Task CreatePostAsync(Post post)
     {
-        postsCollection.InsertOne(post);
+        await postsCollection.InsertOneAsync(post);
     }
 
-    public long GetMaxId()
+    public async Task<Post> GetPostAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var filter = filterBuilder.Eq(post => post.Id, id);
+        return await postsCollection.Find(filter).SingleOrDefaultAsync();
     }
 
-    public Post GetPost(long id)
+    public async Task<IEnumerable<Post>> GetPostsAsync()
     {
-        throw new NotImplementedException();
-    }
-
-    public IEnumerable<Post> GetPosts()
-    {
-        throw new NotImplementedException();
+        return await postsCollection.FindAsync(new BsonDocument()).Result.ToListAsync();
     }
 }
