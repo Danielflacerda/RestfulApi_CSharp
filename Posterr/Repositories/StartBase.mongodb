@@ -12,19 +12,19 @@ db.posts.drop();
 
 // Insert a few documents into the sales collection.
 db.posts.insertMany([
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b76', 'content': 'Hello World 1', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': new Date('2014-03-01T08:00:00Z') },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b77', 'content': 'Hello World 2', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': new Date('2014-03-02T08:00:00Z') },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b78', 'content': 'Hello World 3', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': new Date('2014-03-03T08:00:00Z') },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b79', 'content': 'Hello World 4', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': new Date('2014-03-04T08:00:00Z') },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b80', 'content': 'Hello World 5', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': new Date('2014-03-05T08:00:00Z') },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b81', 'content': 'Hello World 6', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': new Date('2014-03-06T08:00:00Z') },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b82', 'content': 'Hello World 7', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': new Date('2014-03-07T08:00:00Z') },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b83', 'content': 'Hello World 8', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': new Date('2014-03-08T08:00:00Z') },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b84', 'content': 'Hello World 9', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': new Date('2014-03-09T08:00:00Z') },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b85', 'content': 'Hello World 10', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b71', 'createdOn': new Date('2014-03-10T08:00:00Z') },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b86', 'content': 'Hello World 11', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b71', 'createdOn': new Date('2014-03-11T08:00:00Z') },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b87', 'content': 'Hello World 12', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b71', 'createdOn': new Date('2014-03-12T08:00:00Z') },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b88', 'content': 'Hello World 13', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b71', 'createdOn': new Date('2014-04-01T08:00:00Z') },
+  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b76', 'content': 'Hello World 1', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-01T08:00:00Z' },
+  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b77', 'content': 'Hello World 2', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-02T08:00:00Z' },
+  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b78', 'content': 'Hello World 3', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-03T08:00:00Z' },
+  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b79', 'content': 'Hello World 4', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-04T08:00:00Z' },
+  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b80', 'content': 'Hello World 5', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-05T08:00:00Z' },
+  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b81', 'content': 'Hello World 6', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-06T08:00:00Z' },
+  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b82', 'content': 'Hello World 7', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-07T08:00:00Z' },
+  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b83', 'content': 'Hello World 8', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-08T08:00:00Z' },
+  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b84', 'content': 'Hello World 9', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-09T08:00:00Z' },
+  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b85', 'content': 'Hello World 10', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b71', 'createdOn': '2014-03-10T08:00:00Z' },
+  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b86', 'content': 'Hello World 11', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b71', 'createdOn': '2014-03-11T08:00:00Z' },
+  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b87', 'content': 'Hello World 12', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b71', 'createdOn': '2014-03-12T08:00:00Z' },
+  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b88', 'content': 'Hello World 13', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b71', 'createdOn': '2014-04-01T08:00:00Z' },
 ]);
 
 // Run a find command to view items sold on April 4th, 2014.

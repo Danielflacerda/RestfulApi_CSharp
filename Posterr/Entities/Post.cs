@@ -8,9 +8,9 @@ public record Post
     
     public string Content { get; init; }
     
-    public long? RepostedPostId { get; init; }
+    public Guid? RepostedPostId { get; init; }
     
-    public long PostedByUserId { get; init; }
+    public Guid PostedByUserId { get; init; }
     
     public DateTimeOffset CreatedOn { get; init; }
 
