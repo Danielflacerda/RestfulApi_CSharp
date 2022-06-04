@@ -9,34 +9,44 @@ use('posterr');
 // The drop() command destroys all data from a collection.
 // Make sure you run it against the correct database and collection.
 db.posts.drop();
+db.users.drop();
+db.counters.drop();
 
-// Insert a few documents into the sales collection.
-db.posts.insertMany([
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b76', 'content': 'Hello World 1', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-01T08:00:00Z' },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b77', 'content': 'Hello World 2', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-02T08:00:00Z' },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b78', 'content': 'Hello World 3', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-03T08:00:00Z' },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b79', 'content': 'Hello World 4', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-04T08:00:00Z' },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b80', 'content': 'Hello World 5', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-05T08:00:00Z' },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b81', 'content': 'Hello World 6', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-06T08:00:00Z' },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b82', 'content': 'Hello World 7', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-07T08:00:00Z' },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b83', 'content': 'Hello World 8', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-08T08:00:00Z' },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b84', 'content': 'Hello World 9', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b70', 'createdOn': '2014-03-09T08:00:00Z' },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b85', 'content': 'Hello World 10', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b71', 'createdOn': '2014-03-10T08:00:00Z' },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b86', 'content': 'Hello World 11', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b71', 'createdOn': '2014-03-11T08:00:00Z' },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b87', 'content': 'Hello World 12', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b71', 'createdOn': '2014-03-12T08:00:00Z' },
-  { '_id': '7e30baf4-34a7-4692-a6f5-158c7d9f1b88', 'content': 'Hello World 13', 'repostedPostId': null, 'postedByUserId': '7e30baf4-34a7-4692-a6f5-158c7d9f1b71', 'createdOn': '2014-04-01T08:00:00Z' },
+// Insert a few documents into the base collection.
+db.counters.insertMany([
+  { '_id': 'Posts', 'Content': 12},
+  { '_id': 'Users', 'Content': 2}
 ]);
 
-// Run a find command to view items sold on April 4th, 2014.
-//db.sales.find({ date: { $gte: new Date('2014-04-04'), $lt: new Date('2014-04-05') } });
+db.users.insertMany([
+  { 
+    '_id' : 1,
+    'Username' : "TheJoshua",
+    'CreatedOn' : "01/01/2015",
+    'Followers' : ["Biden", "Obama", "Trump"],
+    'Following' : ["Biden", "Obama", "Trump", "JhonnyUchiha"],
+    'PostsCount' : 10},
+  { 
+    '_id' : 2,
+    'Username' : "JhonnyUchiha",
+    'CreatedOn' : "01/04/2015",
+    'Followers' : ["Biden", "Obama", "Trump", "TheJoshua"],
+    'Following' : ["Biden", "Obama", "Trump"],
+    'PostsCount' : 2}
+]);
 
-// Build an aggregation to view total sales for each product in 2014.
-//const aggregation = [
-// { $match: { date: { $gte: new Date('2014-01-01'), $lt: new Date('2015-01-01') } } },
-//  { $group: { _id: '$item', totalSaleAmount: { $sum: { $multiply: [ '$price', '$quantity' ] } } } }
-//];
+db.posts.insertMany([
+  { '_id': 1, 'Content': 'The Hello World', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2014-03-01T08:00:00' },
+  { '_id': 2, 'Content': 'Hello World 2', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2014-03-02T08:00:00' },
+  { '_id': 3, 'Content': 'Hello World 3', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2015-03-03T08:00:00' },
+  { '_id': 4, 'Content': 'Hello World 4', 'RepostedPostId': null, 'PostedByUsername': 'JhonnyUchiha', 'CreatedOn': '2016-03-04T08:00:00' },
+  { '_id': 5, 'Content': 'Hello World 6', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2017-03-06T08:00:00' },
+  { '_id': 6, 'Content': 'Hello World 7', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2018-03-07T08:00:00' },
+  { '_id': 7, 'Content': 'Hello World 8', 'RepostedPostId': null, 'PostedByUsername': 'JhonnyUchiha', 'CreatedOn': '2019-03-08T08:00:00' },
+  { '_id': 8, 'Content': 'Hello World 9', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2020-03-09T08:00:00' },
+  { '_id': 9, 'Content': 'Hello World 10', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2014-03-10T08:00:00' },
+  { '_id': 10, 'Content': 'Hello World 11', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2014-03-11T08:00:00' },
+  { '_id': 11, 'Content': 'Hello World 12', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2014-03-12T08:00:00' },
+  { '_id': 12, 'Content': 'Hello World 13', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2014-04-01T08:00:00' },
+]);
 
-// Run the aggregation and open a cursor to the results.
-// Use toArray() to exhaust the cursor to return the whole result set.
-// You can use hasNext()/next() to iterate through the cursor page by page.
-//db.sales.aggregate(aggregation);

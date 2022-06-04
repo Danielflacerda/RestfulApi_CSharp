@@ -9,7 +9,7 @@ public static class Utilities{
                 Id = post.Id,
                 Content = post.Content,
                 RepostedPostId = post.RepostedPostId,
-                PostedByUserId = post.PostedByUserId,
+                PostedByUsername = post.PostedByUsername,
                 CreatedOn = post.CreatedOn
         };
     }

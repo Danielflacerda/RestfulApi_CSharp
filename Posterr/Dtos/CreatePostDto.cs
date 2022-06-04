@@ -10,6 +10,6 @@ public record CreatePostDto
     public long? RepostedPostId { get; init; }
     
     [Required]
-    public long PostedByUserId { get; init; }
+    public string PostedByUsername { get; init; }
 
 }

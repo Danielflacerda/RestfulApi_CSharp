@@ -15,7 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
-BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
+BsonSerializer.RegisterSerializer(new DateTimeSerializer(BsonType.String));
 builder.Services.AddSingleton<IMongoClient>(serviceProvider =>
 {
     var setting = builder.Configuration.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>();

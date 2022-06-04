@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Posterr.Entities;
+namespace Posterr.Dtos;
 
 // Using record instead of class so it becomes more safe since we aren't going to change
 // the object structure.
-public record User
+public record UserDto
 {
     public long Id { get; init; }
     
