@@ -1,5 +1,4 @@
 using Posterr.Entities;
-using Posterr.Filter;
 
 namespace Posterr.Repositories;
 public interface ICountersRepository
