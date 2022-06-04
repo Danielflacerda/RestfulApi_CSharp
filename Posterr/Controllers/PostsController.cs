@@ -18,7 +18,7 @@ public class PostsController : ControllerBase
         Username = "TheJoshua",
         CreatedOn = DateTime.Parse("01/01/2015"),
         Followers = new List<string>{"Biden", "Obama", "Trump"},
-        Following = new List<string>{"Biden", "Obama", "Trump"},
+        Following = new List<string>{"Biden", "Obama", "Trump", "JhonnyUchiha"},
         PostsCount = 12
     };
     private readonly ILogger<PostsController> _logger;
