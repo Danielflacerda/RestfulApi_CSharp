@@ -1,5 +1,6 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Posterr.Application;
 using Posterr.Dtos;
 using Posterr.Entities;
 using Posterr.Filter;
@@ -22,14 +23,14 @@ public class PostsController : ControllerBase
         PostsCount = 12
     };
     private readonly ILogger<PostsController> _logger;
-    private readonly IPostsRepository _postsRepository;
+    private readonly IPostsApplication _postsApplication;
     private readonly ICountersRepository _countersRepository;
     private readonly IUsersRepository _usersRepository;
 
-    public PostsController(ILogger<PostsController> logger, IPostsRepository postsRepository, ICountersRepository countersRepository, IUsersRepository usersRepository)
+    public PostsController(ILogger<PostsController> logger, IPostsApplication postsApplication, ICountersRepository countersRepository, IUsersRepository usersRepository)
     {
         _logger = logger;
-        _postsRepository = postsRepository;
+        _postsApplication = postsApplication;
         _countersRepository = countersRepository;
         _usersRepository = usersRepository;
     }
@@ -40,12 +41,7 @@ public class PostsController : ControllerBase
     {
         var validFilter = new PaginationFilter(filter.PageNumber, 10);
         try{
-            var posts = (await _postsRepository.GetPostsAsync(validFilter, sessionUser.Username, filteredByFollowing)).Select(post => post.PostAsDto());
-            if (posts.Count() == 0){
-                return Ok(new PagedResponse<string>("", validFilter.PageNumber, validFilter.PageSize,"No more posts were found, follow more users for more posts", false));
-            }
-            else
-                return Ok(new PagedResponse<List<PostDto>>(posts.ToList(), validFilter.PageNumber, validFilter.PageSize));
+            return Ok(_postsApplication.GetPostsHomePage(validFilter, filteredByFollowing));
         }
         catch(Exception ex){
             return BadRequest(new Response<string>("", ex.Message, false));
@@ -57,12 +53,7 @@ public class PostsController : ControllerBase
     {
         var validFilter = new PaginationFilter(filter.PageNumber, 5);
         try{
-            var posts = (await _postsRepository.GetPostsUserPageAsync(username, validFilter)).Select(post => post.PostAsDto());
-            if (posts.Count() == 0){
-                return Ok(new PagedResponse<string>("", validFilter.PageNumber, validFilter.PageSize,"No more posts were found for the current user.", false));
-            }
-            else
-                return Ok(new PagedResponse<List<PostDto>>(posts.ToList(), validFilter.PageNumber, validFilter.PageSize));
+            return Ok(_postsApplication.GetPostsUserPage(validFilter, username));
         }
         catch(Exception ex){
             return BadRequest(new Response<string>("", ex.Message, false));
@@ -73,38 +64,7 @@ public class PostsController : ControllerBase
     public async Task<IActionResult> CreatePostAsync(CreatePostDto value)
     {
         try{
-            if(value.Content.Length <= 777){
-                var postWriter = _usersRepository.GetUserAsync(value.PostedByUsername).Result;
-                if(postWriter != null){ // Check if username informed as post writer exists
-                    if(_postsRepository.GetTodayUserPostsCounterAsync(value.PostedByUsername).Result < 5){
-                        long counterPosts =  _countersRepository.GetCounterAsync("Posts").Result.Value;
-                        Post post = new(){
-                            Id = counterPosts + 1,
-                            Content = value.Content,
-                            RepostedPostId = value.RepostedPostId,
-                            PostedByUsername = value.PostedByUsername,
-                            CreatedOn = DateTime.Now
-                        };
-
-                        await _postsRepository.CreatePostAsync(post);
-                        // Normally in a relational database i would use a trigger for that
-                        await _usersRepository.UpdateUserPostCounter(post.PostedByUsername);
-                        // Normally in a relational database i would use a trigger for that
-                        _countersRepository.UpdateCounterAsync("Posts", post.Id);
-
-                        return Ok(new Response<Post>(post, "Post created succesfully", true));
-                    }
-                    else
-                        return Ok(new Response<string>("", "Daily post limit achieved", false));
-                }
-                else{
-                        return Ok(new Response<string>("", "User informed as post writer does not exist!", false));
-                }
-            }
-            else
-            {
-                return Ok(new Response<string>("", "Content should not have more than 777 Characters!", false));
-            }
+            return Ok(_postsApplication.CreatePostAsync(value));
         }
         catch(Exception ex){
             return BadRequest(new Response<string>("", ex.Message, false));
