@@ -1,6 +1,6 @@
 namespace Posterr.Dtos;
 
-public record PostDto
+public class PostDto
 {
     public long Id { get; init; }
     

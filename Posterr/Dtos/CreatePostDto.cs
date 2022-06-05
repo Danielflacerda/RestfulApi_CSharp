@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Posterr.Dtos;
 
-public record CreatePostDto
+public class CreatePostDto
 {
     [Required]
     public string Content { get; init; }

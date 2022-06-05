@@ -13,4 +13,14 @@ public static class Utilities{
                 CreatedOn = post.CreatedOn
         };
     }
+    public static UserDto UserAsDto(this User user){
+        return new UserDto{
+                Id = user.Id,
+                Username = user.Username,
+                JoinedDate = user.CreatedOn.ToString("MMMM dd, yyyy"),
+                Followers = user.Followers.Count(),
+                Following = user.Following.Count(),
+                PostsCount = user.PostsCount
+        };
+    }
 }

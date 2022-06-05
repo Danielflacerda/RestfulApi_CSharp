@@ -34,52 +34,15 @@ public class PostsController : ControllerBase
         _usersRepository = usersRepository;
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Post>> GetPostAsync(long id)
-    {
-        try{
-            var post = await _postsRepository.GetPostAsync(id);
-            
-            if (post is null){
-                return NotFound();
-            }
-            else
-                return Ok(post);
 
-        }
-        catch (Exception ex){
-            return BadRequest(ex.Message);
-        }
-
-    }
-
-    [HttpGet()]
-    [Route("HomePage")]
+    [HttpGet("GetPostsHomePage")]
     public async Task<IActionResult> GetPostsAsync([FromQuery] PaginationFilter filter, bool filteredByFollowing)
     {
         var validFilter = new PaginationFilter(filter.PageNumber, 10);
         try{
-            var posts = (await _postsRepository.GetPostsAsync(validFilter, filteredByFollowing)).Select(post => post.PostAsDto());
+            var posts = (await _postsRepository.GetPostsAsync(validFilter, sessionUser.Username, filteredByFollowing)).Select(post => post.PostAsDto());
             if (posts.Count() == 0){
-                return Ok(new PagedResponse<List<PostDto>>(posts.ToList(), validFilter.PageNumber, validFilter.PageSize,"No more posts were found, follow more users for more posts", false));
-            }
-            else
-                return Ok(new PagedResponse<List<PostDto>>(posts.ToList(), validFilter.PageNumber, validFilter.PageSize));
-        }
-        catch(Exception ex){
-            return BadRequest(new PagedResponse<string>("", validFilter.PageNumber, validFilter.PageSize, ex.Message, false));
-        }
-    }
-
-    [HttpGet()]
-    [Route("UserPage")]
-    public async Task<IActionResult> GetPostsAsync([FromQuery] PaginationFilter filter, string username)
-    {
-        var validFilter = new PaginationFilter(filter.PageNumber, 5);
-        try{
-            var posts = (await _postsRepository.GetPostsUserPageAsync(username, validFilter)).Select(post => post.PostAsDto());
-            if (posts.Count() == 0){
-                return Ok(new PagedResponse<List<PostDto>>(posts.ToList(), validFilter.PageNumber, validFilter.PageSize,"No more posts were found for the current user.", false));
+                return Ok(new PagedResponse<string>("", validFilter.PageNumber, validFilter.PageSize,"No more posts were found, follow more users for more posts", false));
             }
             else
                 return Ok(new PagedResponse<List<PostDto>>(posts.ToList(), validFilter.PageNumber, validFilter.PageSize));
@@ -89,31 +52,62 @@ public class PostsController : ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpGet("GetPostsUserPage")]
+    public async Task<IActionResult> GetPostsAsync([FromQuery] PaginationFilter filter, string username)
+    {
+        var validFilter = new PaginationFilter(filter.PageNumber, 5);
+        try{
+            var posts = (await _postsRepository.GetPostsUserPageAsync(username, validFilter)).Select(post => post.PostAsDto());
+            if (posts.Count() == 0){
+                return Ok(new PagedResponse<string>("", validFilter.PageNumber, validFilter.PageSize,"No more posts were found for the current user.", false));
+            }
+            else
+                return Ok(new PagedResponse<List<PostDto>>(posts.ToList(), validFilter.PageNumber, validFilter.PageSize));
+        }
+        catch(Exception ex){
+            return BadRequest(new Response<string>("", ex.Message, false));
+        }
+    }
+
+    [HttpPost("CreatePostAsync")]
     public async Task<IActionResult> CreatePostAsync(CreatePostDto value)
     {
         try{
-            if(_postsRepository.GetTodayUserPostsCounterAsync(value.PostedByUsername).Result < 5){
-                long counterPosts =  _countersRepository.GetCounterAsync("Posts").Result.Value;
-                Post post = new(){
-                    Id = counterPosts + 1,
-                    Content = value.Content,
-                    RepostedPostId = value.RepostedPostId,
-                    PostedByUsername = value.PostedByUsername,
-                    CreatedOn = DateTime.Now
-                };
+            if(value.Content.Length <= 777){
+                var postWriter = _usersRepository.GetUserAsync(value.PostedByUsername).Result;
+                if(postWriter != null){ // Check if username informed as post writer exists
+                    if(_postsRepository.GetTodayUserPostsCounterAsync(value.PostedByUsername).Result < 5){
+                        long counterPosts =  _countersRepository.GetCounterAsync("Posts").Result.Value;
+                        Post post = new(){
+                            Id = counterPosts + 1,
+                            Content = value.Content,
+                            RepostedPostId = value.RepostedPostId,
+                            PostedByUsername = value.PostedByUsername,
+                            CreatedOn = DateTime.Now
+                        };
 
-                await _postsRepository.CreatePostAsync(post);
-                await _usersRepository.UpdateUserPostCounter(post.PostedByUsername);
-                _countersRepository.UpdateCounterAsync("Posts", post.Id);
+                        await _postsRepository.CreatePostAsync(post);
+                        // Normally in a relational database i would use a trigger for that
+                        await _usersRepository.UpdateUserPostCounter(post.PostedByUsername);
+                        // Normally in a relational database i would use a trigger for that
+                        _countersRepository.UpdateCounterAsync("Posts", post.Id);
 
-                return Ok(new Response<Post>(post, "Post created succesfully", true));
+                        return Ok(new Response<Post>(post, "Post created succesfully", true));
+                    }
+                    else
+                        return Ok(new Response<string>("", "Daily post limit achieved", false));
+                }
+                else{
+                        return Ok(new Response<string>("", "User informed as post writer does not exist!", false));
+                }
             }
             else
-                return Ok(new Response<string>("", "Daily post limit achieved", false));
+            {
+                return Ok(new Response<string>("", "Content should not have more than 777 Characters!", false));
+            }
         }
         catch(Exception ex){
-            return BadRequest(new Response<CreatePostDto>(value, ex.Message, false));
+            return BadRequest(new Response<string>("", ex.Message, false));
         }
     }
 }
