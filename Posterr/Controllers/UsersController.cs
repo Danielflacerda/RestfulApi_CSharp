@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Posterr.Application;
 using Posterr.Dtos;
 using Posterr.Entities;
 using Posterr.Repositories;
@@ -19,28 +20,20 @@ public class UsersController : ControllerBase
         PostsCount = 12
     };
     private readonly ILogger<UsersController> _logger;
-    private readonly IUsersRepository _usersRepository;
+    private readonly IUsersApplication _usersApplication;
 
-    public UsersController(ILogger<UsersController> logger, IUsersRepository usersRepository)
+    public UsersController(ILogger<UsersController> logger, IUsersApplication usersApplication)
     {
         _logger = logger;
-        _usersRepository = usersRepository;
+        _usersApplication = usersApplication;
     }
-
 
 
     [HttpGet("GetPost")]
     public async Task<ActionResult<UserDto>> GetAsync(string userName)
     {
         try{
-            var user = (await _usersRepository.GetUserAsync(userName)).UserAsDto();
-            
-            if (user is null){
-                return NotFound(new Response<string>("", "User was not found, try another username", false));
-            }
-            else
-                return Ok(new Response<UserDto>(user, null, true));
-
+            return Ok(_usersApplication.GetAsync(userName));
         }
         catch (Exception ex){
             return BadRequest(new Response<string>("", ex.Message, false));
@@ -52,32 +45,7 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<Response<string>>> FollowUnfollowAsync(bool followUnfollow, string targetUsername)
     {
         try{
-            if (sessionUser.Username == targetUsername)
-                return BadRequest(new Response<string>("", "User cannot follow himself!", false));
-            
-            var targetUser = _usersRepository.GetUserAsync(targetUsername).Result;
-            if(targetUser != null){ // Check if TargetUser exists
-                if (followUnfollow){ // Check if it's a follow action or a unfollow action
-                    if(targetUser.Followers.Contains(sessionUser.Username)){ // Checks if user already follows target
-                        return BadRequest(new Response<string>("", "@" + sessionUser.Username + " already follows @" + targetUsername + "!", false));
-                    }
-                    else{
-                        _usersRepository.FollowUnfollowUser(followUnfollow, sessionUser.Username, targetUser);
-                        return Ok(new Response<string>("", "@" + sessionUser.Username + " followed @" + targetUsername + " succesfully!", true));
-                    }
-                }
-                else{
-                    if(!targetUser.Followers.Contains(sessionUser.Username)){ // Checks if user already do not follow target
-                        return BadRequest(new Response<string>("", "@" + sessionUser.Username + " do not follow @" + targetUsername + "!", false));
-                    }
-                    else{
-                        _usersRepository.FollowUnfollowUser(followUnfollow, sessionUser.Username, targetUser);
-                        return Ok(new Response<string>("", "@" + sessionUser.Username + " unfollowed @" + targetUsername + " succesfully!", true));
-                    }
-                }
-            }
-            else                    
-                return BadRequest(new Response<string>("", "@" + targetUsername + " does not exist!", false));
+            return Ok(_usersApplication.FollowUnfollowAsync(followUnfollow, targetUsername));
         }
         catch(Exception ex){
             return BadRequest(new Response<string>("", ex.Message, false));
@@ -92,17 +60,7 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<bool>> FollowedByUserAsync(string targetUsername)
     {
         try{
-            var targetUser = await _usersRepository.GetUserAsync(targetUsername);
-            
-            if (targetUser is null){
-                return NotFound(new Response<string>("", "User was not found, try another username", false));
-            }
-            else{
-                if(targetUser.Followers.Contains(sessionUser.Username))
-                    return Ok(new Response<bool>(true, "@" + sessionUser.Username + " follows @" + targetUsername + "!", true));
-                else
-                    return BadRequest(new Response<bool>(false, "@" + sessionUser.Username + " do not follow @" + targetUsername + "!", false));
-            }
+            return Ok(_usersApplication.FollowedByUserAsync(targetUsername));
         }
         catch(Exception ex){
             return BadRequest(new Response<string>("", ex.Message, false));

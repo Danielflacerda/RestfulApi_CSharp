@@ -12,27 +12,13 @@ namespace Posterr.Controllers;
 [Route("[controller]")]
 public class PostsController : ControllerBase
 {
-    // If i had a session control i would use a sessionUser variable for when current logged user data is necessary,
-    // because of that i'm going to hardcode current user so the api methods works as it should.
-    public User sessionUser = new User{
-        Id = 1,
-        Username = "TheJoshua",
-        CreatedOn = DateTime.Parse("01/01/2015"),
-        Followers = new List<string>{"Biden", "Obama", "Trump"},
-        Following = new List<string>{"Biden", "Obama", "Trump", "JhonnyUchiha"},
-        PostsCount = 12
-    };
     private readonly ILogger<PostsController> _logger;
     private readonly IPostsApplication _postsApplication;
-    private readonly ICountersRepository _countersRepository;
-    private readonly IUsersRepository _usersRepository;
 
-    public PostsController(ILogger<PostsController> logger, IPostsApplication postsApplication, ICountersRepository countersRepository, IUsersRepository usersRepository)
+    public PostsController(ILogger<PostsController> logger, IPostsApplication postsApplication)
     {
         _logger = logger;
         _postsApplication = postsApplication;
-        _countersRepository = countersRepository;
-        _usersRepository = usersRepository;
     }
 
 
