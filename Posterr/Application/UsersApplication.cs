@@ -5,7 +5,7 @@ using Posterr.Repositories;
 
 namespace Posterr.Application;
 
-public class UsersApplication : ControllerBase
+public class UsersApplication : IUsersApplication
 {
 
     public User sessionUser = new User{

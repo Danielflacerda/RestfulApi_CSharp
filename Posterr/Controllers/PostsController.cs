@@ -27,7 +27,7 @@ public class PostsController : ControllerBase
     {
         var validFilter = new PaginationFilter(filter.PageNumber, 10);
         try{
-            return Ok(_postsApplication.GetPostsHomePage(validFilter, filteredByFollowing));
+            return Ok(await _postsApplication.GetPostsHomePage(validFilter, filteredByFollowing));
         }
         catch(Exception ex){
             return BadRequest(new Response<string>("", ex.Message, false));
@@ -39,7 +39,7 @@ public class PostsController : ControllerBase
     {
         var validFilter = new PaginationFilter(filter.PageNumber, 5);
         try{
-            return Ok(_postsApplication.GetPostsUserPage(validFilter, username));
+            return Ok(await _postsApplication.GetPostsUserPage(validFilter, username));
         }
         catch(Exception ex){
             return BadRequest(new Response<string>("", ex.Message, false));
@@ -50,7 +50,7 @@ public class PostsController : ControllerBase
     public async Task<IActionResult> CreatePostAsync(CreatePostDto value)
     {
         try{
-            return Ok(_postsApplication.CreatePostAsync(value));
+            return Ok(await _postsApplication.CreatePostAsync(value));
         }
         catch(Exception ex){
             return BadRequest(new Response<string>("", ex.Message, false));

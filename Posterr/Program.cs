@@ -2,6 +2,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
+using Posterr.Application;
 using Posterr.Repositories;
 using Posterr.Settings;
 
@@ -22,9 +23,13 @@ builder.Services.AddSingleton<IMongoClient>(serviceProvider =>
     return new MongoClient(setting.ConnectionString);
 });
 
+// Repositorys interface
 builder.Services.AddSingleton<IPostsRepository, MongoDbPostsRepository>();
 builder.Services.AddSingleton<IUsersRepository, MongoDbUsersRepository>();
 builder.Services.AddSingleton<ICountersRepository, MongoDbCountersRepository>();
+// Applications interface
+builder.Services.AddSingleton<IPostsApplication, PostsApplication>();
+builder.Services.AddSingleton<IUsersApplication, UsersApplication>();
 
 var app = builder.Build();
 

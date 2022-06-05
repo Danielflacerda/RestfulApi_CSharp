@@ -33,7 +33,7 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<UserDto>> GetAsync(string userName)
     {
         try{
-            return Ok(_usersApplication.GetAsync(userName));
+            return Ok(await _usersApplication.GetAsync(userName));
         }
         catch (Exception ex){
             return BadRequest(new Response<string>("", ex.Message, false));
@@ -45,7 +45,7 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<Response<string>>> FollowUnfollowAsync(bool followUnfollow, string targetUsername)
     {
         try{
-            return Ok(_usersApplication.FollowUnfollowAsync(followUnfollow, targetUsername));
+            return Ok(await _usersApplication.FollowUnfollowAsync(followUnfollow, targetUsername));
         }
         catch(Exception ex){
             return BadRequest(new Response<string>("", ex.Message, false));
@@ -60,7 +60,7 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<bool>> FollowedByUserAsync(string targetUsername)
     {
         try{
-            return Ok(_usersApplication.FollowedByUserAsync(targetUsername));
+            return Ok(await _usersApplication.FollowedByUserAsync(targetUsername));
         }
         catch(Exception ex){
             return BadRequest(new Response<string>("", ex.Message, false));
