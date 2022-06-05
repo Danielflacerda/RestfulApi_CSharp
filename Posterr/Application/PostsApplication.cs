@@ -35,7 +35,7 @@ public class PostsApplication : IPostsApplication
     {
         var posts = (await _postsRepository.GetPostsAsync(filter, sessionUser.Username, filteredByFollowing)).Select(post => post.PostAsDto());
         if (posts.Count() == 0){
-            return new PagedResponse<List<PostDto>>(null, filter.PageNumber, filter.PageSize,"No more posts were found, follow more users for more posts", false);
+            return new PagedResponse<List<PostDto>>(null, filter.PageNumber, filter.PageSize,"No posts were found, follow more users for more posts", false);
         }
         else
             return new PagedResponse<List<PostDto>>(posts.ToList(), filter.PageNumber, filter.PageSize);
@@ -45,14 +45,30 @@ public class PostsApplication : IPostsApplication
     {
         var posts = (await _postsRepository.GetPostsUserPageAsync(username, filter)).Select(post => post.PostAsDto());
         if (posts.Count() == 0){
-            return new PagedResponse<List<PostDto>>(null, filter.PageNumber, filter.PageSize,"No more posts were found for the current user.", false);
+            return new PagedResponse<List<PostDto>>(null, filter.PageNumber, filter.PageSize,"No posts were found for the current user.", false);
         }
         else
             return new PagedResponse<List<PostDto>>(posts.ToList(), filter.PageNumber, filter.PageSize);
     }
     public async Task<Response<Post>> CreatePostAsync(CreatePostDto value)
     {
-            if(value.Content.Length <= 777){
+        bool structurePost = true;
+        string message = string.Empty;
+        if( ((!string.IsNullOrEmpty(value.Content)) && value.RepostedPostId != null)){//Check the correct structure for a quote post
+            structurePost = false;
+            message = "A quote post must have content.";
+        }
+        if( (string.IsNullOrEmpty(value.Content) && value.RepostedPostId != null)){ //Check the correct structure for a repost
+            structurePost = false;
+            message = "A repost must not have content.";
+        }
+        if( ((!string.IsNullOrEmpty(value.Content)) && value.RepostedPostId == null)){ //Check the correct structure for a post
+            structurePost = false;
+            message = "A post must have content and do not refer any other post.";
+        }
+            
+        if(structurePost) {   
+            if(value.Content.Length <= 777){ // Check if contents length is lower than or equal to 777
                 var postWriter = _usersRepository.GetUserAsync(value.PostedByUsername).Result;
                 if(postWriter != null){ // Check if username informed as post writer exists
                     if(_postsRepository.GetTodayUserPostsCounterAsync(value.PostedByUsername).Result < 5){
@@ -84,5 +100,19 @@ public class PostsApplication : IPostsApplication
             {
                 return new Response<Post>(null, "Content should not have more than 777 Characters!", false);
             }
+        }
+        else{
+                return new Response<Post>(null, message, false);
+        }
+    }
+    
+    public async Task<PagedResponse<List<PostDto>>> SearchAsync(PaginationFilter filter, string searchContent)
+    {
+        var posts = (await _postsRepository.SearchAsync(searchContent, filter)).Select(post => post.PostAsDto());
+        if (posts.Count() == 0){
+            return new PagedResponse<List<PostDto>>(null, filter.PageNumber, filter.PageSize,"No posts were found for the searched content.", false);
+        }
+        else
+            return new PagedResponse<List<PostDto>>(posts.ToList(), filter.PageNumber, filter.PageSize);
     }
 }

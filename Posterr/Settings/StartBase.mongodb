@@ -67,14 +67,14 @@ db.posts.insertMany([
   { '_id': 1, 'Content': 'The Hello World', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2014-03-01T08:00:00' },
   { '_id': 2, 'Content': 'Hello World 2', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2014-03-02T08:00:00' },
   { '_id': 3, 'Content': 'Hello World 3', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2015-03-03T08:00:00' },
-  { '_id': 4, 'Content': 'Hello World 4', 'RepostedPostId': null, 'PostedByUsername': 'JhonnyUchiha', 'CreatedOn': '2016-03-04T08:00:00' },
+  { '_id': 4, 'Content': 'Hello World 4', 'RepostedPostId': 2, 'PostedByUsername': 'JhonnyUchiha', 'CreatedOn': '2016-03-04T08:00:00' },
   { '_id': 5, 'Content': 'Hello World 6', 'RepostedPostId': null, 'PostedByUsername': 'LucasRmax', 'CreatedOn': '2017-03-06T08:00:00' },
   { '_id': 6, 'Content': 'Hello World 7', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2018-03-07T08:00:00' },
-  { '_id': 7, 'Content': 'Hello World 8', 'RepostedPostId': null, 'PostedByUsername': 'JhonnyUchiha', 'CreatedOn': '2019-03-08T08:00:00' },
+  { '_id': 7, 'Content': null, 'RepostedPostId': 3, 'PostedByUsername': 'JhonnyUchiha', 'CreatedOn': '2019-03-08T08:00:00' },
   { '_id': 8, 'Content': 'Hello World 9', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2020-03-09T08:00:00' },
   { '_id': 9, 'Content': 'Hello World 10', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2020-03-10T08:00:00' },
   { '_id': 10, 'Content': 'Hello World 11', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2020-03-11T08:00:00' },
   { '_id': 11, 'Content': 'Hello World 12', 'RepostedPostId': null, 'PostedByUsername': 'TheJoshua', 'CreatedOn': '2020-03-12T08:00:00' },
-  { '_id': 12, 'Content': 'Hello World 13', 'RepostedPostId': null, 'PostedByUsername': 'LucasRmax', 'CreatedOn': '2020-04-01T08:00:00' },
+  { '_id': 12, 'Content': '', 'RepostedPostId': 6, 'PostedByUsername': 'LucasRmax', 'CreatedOn': '2020-04-01T08:00:00' },
 ]);
 

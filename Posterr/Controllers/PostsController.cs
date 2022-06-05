@@ -55,5 +55,18 @@ public class PostsController : ControllerBase
         catch(Exception ex){
             return BadRequest(new Response<string>("", ex.Message, false));
         }
+    }    
+    
+    
+    [HttpPost("Search")]
+    public async Task<IActionResult> SearchAsync([FromQuery] PaginationFilter filter, string searchContent)
+    {
+        var validFilter = new PaginationFilter(filter.PageNumber, 5);
+        try{
+            return Ok(await _postsApplication.SearchAsync(validFilter, searchContent));
+        }
+        catch(Exception ex){
+            return BadRequest(new Response<string>("", ex.Message, false));
+        }
     }
 }

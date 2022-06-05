@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Posterr.Entities;
@@ -62,6 +63,19 @@ public class MongoDbPostsRepository : IPostsRepository
     public async Task<IEnumerable<Post>> GetPostsUserPageAsync(string username, PaginationFilter paginationFilter)
     {
         var queryFilter = filterBuilder.Eq(x => x.PostedByUsername, username);
+        var posts = await postsCollection.Find(queryFilter)
+            .SortByDescending(x => x.CreatedOn)
+            .Skip((paginationFilter.PageNumber - 1) * paginationFilter.PageSize)
+            .Limit(paginationFilter.PageSize)
+            .ToListAsync();
+        return posts;
+    }
+
+    public async Task<IEnumerable<Post>> SearchAsync(string searchContent, PaginationFilter paginationFilter)
+    {
+        var queryFilter = filterBuilder.Regex( "Content", new BsonRegularExpression("/"+searchContent+"/"));
+        queryFilter &= filterBuilder.Ne( x => x.Content, "");
+        queryFilter &= filterBuilder.Ne( x => x.Content, null);
         var posts = await postsCollection.Find(queryFilter)
             .SortByDescending(x => x.CreatedOn)
             .Skip((paginationFilter.PageNumber - 1) * paginationFilter.PageSize)

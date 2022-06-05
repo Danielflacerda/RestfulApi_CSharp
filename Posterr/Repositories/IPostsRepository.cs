@@ -9,4 +9,5 @@ public interface IPostsRepository
     Task<IEnumerable<Post>> GetPostsUserPageAsync(string username, PaginationFilter pageNumber);
     Task CreatePostAsync(Post post);
     Task<long> GetTodayUserPostsCounterAsync(string username);
+    Task<IEnumerable<Post>> SearchAsync(string searchContent, PaginationFilter filter);
 }
