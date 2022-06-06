@@ -1,0 +1,188 @@
+{
+	"info": {
+		"_postman_id": "6478f28b-e832-48dc-a746-9436ef0297c3",
+		"name": "Posterr",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PostController",
+			"item": [
+				{
+					"name": "GetPostsHomePage",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7099/Posts/GetPostsHomePage?PageNumber=1&PageSize=10&filteredByFollowing=false",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7099",
+							"path": [
+								"Posts",
+								"GetPostsHomePage"
+							],
+							"query": [
+								{
+									"key": "PageNumber",
+									"value": "1"
+								},
+								{
+									"key": "PageSize",
+									"value": "10"
+								},
+								{
+									"key": "filteredByFollowing",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPostsUserPage",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7099/Posts/Search?PageNumber=1&PageSize=10&searchContent=orld",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7099",
+							"path": [
+								"Posts",
+								"Search"
+							],
+							"query": [
+								{
+									"key": "PageNumber",
+									"value": "1"
+								},
+								{
+									"key": "PageSize",
+									"value": "10"
+								},
+								{
+									"key": "searchContent",
+									"value": "orld"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreatePostAsync",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"content\": \"Testing new post\",\r\n  \"repostedPostId\": null,\r\n  \"postedByUsername\": \"TheJoshua\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7099/Posts/CreatePostAsync",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7099",
+							"path": [
+								"Posts",
+								"CreatePostAsync"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UserController",
+			"item": [
+				{
+					"name": "GetUser",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "FollowUnfollowAsync",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7099/Users/FollowUnfollowAsync?followUnfollow=true&targetUsername=Trump",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7099",
+							"path": [
+								"Users",
+								"FollowUnfollowAsync"
+							],
+							"query": [
+								{
+									"key": "followUnfollow",
+									"value": "true"
+								},
+								{
+									"key": "targetUsername",
+									"value": "Trump"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FollowedByUsername",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7099/Users/FollowedByUserAsync?targetUsername=Trump",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7099",
+							"path": [
+								"Users",
+								"FollowedByUserAsync"
+							],
+							"query": [
+								{
+									"key": "targetUsername",
+									"value": "Trump"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

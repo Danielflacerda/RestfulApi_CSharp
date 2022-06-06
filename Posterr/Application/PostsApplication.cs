@@ -54,18 +54,14 @@ public class PostsApplication : IPostsApplication
     {
         bool structurePost = true;
         string message = string.Empty;
-        if( ((!string.IsNullOrEmpty(value.Content)) && value.RepostedPostId != null)){//Check the correct structure for a quote post
-            structurePost = false;
-            message = "A quote post must have content.";
+
+        if(string.IsNullOrEmpty(value.Content)){ // Check the repostedpostid when there is no content because, there cannot be a post without a content and a repostedpostid at the same time
+            if(value.RepostedPostId == 0 || value.RepostedPostId == null){
+                structurePost = false;
+                message = "Create post request do not accept a post without a content and without a refer to other post at the same time.";
+            }
         }
-        if( (string.IsNullOrEmpty(value.Content) && value.RepostedPostId != null)){ //Check the correct structure for a repost
-            structurePost = false;
-            message = "A repost must not have content.";
-        }
-        if( ((!string.IsNullOrEmpty(value.Content)) && value.RepostedPostId == null)){ //Check the correct structure for a post
-            structurePost = false;
-            message = "A post must have content and do not refer any other post.";
-        }
+
             
         if(structurePost) {   
             if(value.Content.Length <= 777){ // Check if contents length is lower than or equal to 777

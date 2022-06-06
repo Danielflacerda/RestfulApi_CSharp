@@ -28,8 +28,8 @@ public class UsersController : ControllerBase
         _usersApplication = usersApplication;
     }
 
-
-    [HttpGet("GetPost")]
+    // This method receives the userName we want to search in the database
+    [HttpGet("GetUser")]
     public async Task<ActionResult<UserDto>> GetAsync(string userName)
     {
         try{
@@ -41,6 +41,7 @@ public class UsersController : ControllerBase
 
     }
 
+    // This method receives a boolean that indicates if it is to follow (true) or to unfollow (False) the targetUsername received too.
     [HttpPut("FollowUnfollowAsync")]
     public async Task<ActionResult<Response<string>>> FollowUnfollowAsync(bool followUnfollow, string targetUsername)
     {
@@ -54,8 +55,7 @@ public class UsersController : ControllerBase
 
     
 
-    // This method will receive an username, compare with sessionUser username so it can return
-    // an boolean that will inform if the sessionUser follows received user.
+    // This method will receive the targetUsername that we want to look for in the "Following" list of the sessionUser "TheJoshua".
     [HttpGet("FollowedByUserAsync")]
     public async Task<ActionResult<bool>> FollowedByUserAsync(string targetUsername)
     {

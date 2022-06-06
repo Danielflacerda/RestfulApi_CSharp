@@ -4,7 +4,7 @@ namespace Posterr.Dtos;
 
 public class CreatePostDto
 {
-    public string Content { get; init; }
+    public string? Content { get; init; }
     
     public long? RepostedPostId { get; init; }
     

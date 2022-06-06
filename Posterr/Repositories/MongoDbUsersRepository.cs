@@ -37,7 +37,6 @@ public class MongoDbUsersRepository : IUsersRepository
             targetUser.Followers.Add(sessionUsername);
             sessionUser.Following.Add(targetUser.Username);
             var filter = filterBuilder.Eq(user => user.Username, targetUser.Username);
-            // If i were using session control, using session user object would eliminate this get user inside the update clause.
             var update = Builders<User>.Update.Set("Followers", targetUser.Followers);
             usersCollection.UpdateOneAsync(filter, update);
             filter = filterBuilder.Eq(user => user.Username, sessionUsername);
@@ -48,7 +47,6 @@ public class MongoDbUsersRepository : IUsersRepository
             targetUser.Followers.Remove(sessionUsername);
             sessionUser.Following.Remove(targetUser.Username);
             var filter = filterBuilder.Eq(user => user.Username, targetUser.Username);
-            // If i were using session control, using session user object would eliminate this get user inside the update clause.
             var update = Builders<User>.Update.Set("Followers", targetUser.Followers);
             usersCollection.UpdateOneAsync(filter, update);
             filter = filterBuilder.Eq(user => user.Username, sessionUsername);

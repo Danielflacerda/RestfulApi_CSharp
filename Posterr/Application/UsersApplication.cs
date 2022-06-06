@@ -26,13 +26,13 @@ public class UsersApplication : IUsersApplication
 
     public async Task<Response<UserDto>> GetAsync(string userName)
     {
-            var user = (await _usersRepository.GetUserAsync(userName)).UserAsDto();
+            var user = await _usersRepository.GetUserAsync(userName);
             
-            if (user is null){
-                return new Response<UserDto>(null, "User was not found, try another username", false);
+            if (user is not null){
+                return new Response<UserDto>(user.UserAsDto(), null, true);
             }
             else
-                return new Response<UserDto>(user, null, true);
+                return new Response<UserDto>(null, "User was not found, try another username", false);
     }
 
     public async Task<Response<string>> FollowUnfollowAsync(bool followUnfollow, string targetUsername)
